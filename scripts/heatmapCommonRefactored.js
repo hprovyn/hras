@@ -95,7 +95,7 @@ function getWatermarkFromTemplate(title, description, version) {
     
     text += '<div style="font-size:20"><b>'+title+'</b></div>'+ getButtonsRedesigned(dnaTypesConfig) + "&nbsp;" + getButtonsRedesigned(heatmapIconConfigRedesigned) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + getButtonsRedesigned(questionConfig) + '<br>' + description
     text += '&nbsp;<a href="#" onclick="alert(\'HRAS does not store the information you enter and does not use cookies. If you think something is not working correctly please contact hunterprovyn@gmail.com\')">Legal / Contact</a>'
-    text += '<br>Github repo: <a href="https://github.com/hprovyn/frequency-heatmap">hprovyn/frequency-heatmap</a>'
+    text += '<br>Github repo: <a href="https://github.com/hprovyn/hras">hprovyn/hras</a>'
     text += '<div id="sampleCount"></div>' + version + "<br>"+ '<a href="https://www.phylogeographer.com"><img src="' + imagesDir + 'Phylogeographer-Logo-small-transparent.png" width="55%"/></a><br><a href="https://www.yseq.net"><img src="' + imagesDir + 'YSEQ-GmbH-Logo-small-transparent.png"/></a><a href="https://www.yfull.com"><img src="' + imagesDir + 'YFull-Logo-small-transparent.png"/></a>';
     return text;
 }
