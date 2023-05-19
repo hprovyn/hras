@@ -1,0 +1,291 @@
+<html><body>
+    
+        <link rel="stylesheet" href="$hrasScriptsURLdocpage.css"/>
+        <img src="$hrasImagesURLHRAS_logo.jpg" /><br>
+
+        <h1 style='text-align:center'>HRAS</h1>
+<h2 style='text-align:center'>A Data Discovery Tool</h2>
+<a id="Data"></a>
+<h2 style='text-align:center'>Data</h2>
+<ul><li>
+Publicly available self-reported uniparental line ancestor origins of samples on the YFull <a href="https://www.yfull.com/tree/">YTree</a> (~42000 unique samples) and <a href="https://www.yfull.com/tree/">MTree</a> (~80000 unique samples)</li>
+<li>Publicly available branching structure of the YFull YTree and MTree</li><li>
+Publicly available TMRCA estimates for each branching point</li><li>
+(Future) YSEQ customer samples
+</li></ul>
+<h2 style='text-align:center'>Controls</h2>
+Click the link to see that section's documentation.
+
+        <link rel="stylesheet" href="$hrasScriptsURLdocs.css"/>
+        <div class='row' style="width:100%" id='imagelinkscontainer'>
+<div style="width:100%"><h1 style='text-align:center' >How to use HRAS</h1></div>
+        </div>
+
+<div class='row' style="width:100%" id='imagelinkscontainer'>
+<div id='leftlinks' style="width:33%"><br><br><br><br><br><br>
+    <a href="documentationPage.html#DNAType" target ="_blank">DNA Type</a><br><br><br><br><br><br><br><br>
+    <a href="documentationPage.html#EnterSNP" target ="_blank">Enter SNP</a><br><br>
+    <a href="documentationPage.html#ModernVsAncient" target ="_blank">Modern / Ancient Samples</a><br><br>
+    <b><u>Features</u></b><br>
+    1. <a href="documentationPage.html#Animation" target ="_blank">Animation</a><br>
+    2. <a href="documentationPage.html#Outliers" target ="_blank">Outliers</a><br>
+    3. <a href="documentationPage.html#CentroidMetrics" target ="_blank">Centroid Metrics</a><br>
+    4. <a href="documentationPage.html#DiversificationTimeline" target ="_blank">Diversification Timeline</a><br>
+    5. <a href="documentationPage.html#CladeFinder" target ="_blank">Clade Finder</a><br>
+    <br>
+</div>
+<img src='$hrasImagesURLHRAScontrols.png' width='33%'></img>
+<div id='rightlinks'  style="width:33%"><br><br><br><br><br><br>
+    <a href="documentationPage.html#MapType" target ="_blank">Map Type</a><br>
+    <br><br><br><br><br><br><br><b><u>Layers</u></b><br>
+1. <a href="documentationPage.html#Samples" target ="_blank">Samples</a><br>
+2. <a href="documentationPage.html#CountryStats" target ="_blank">Country Stats</a><br>
+3. <a href="documentationPage.html#MigrationToTarget" target ="_blank">Migration: Root -> Target</a><br>
+4. <a href="documentationPage.html#MigrationsToChildren" target ="_blank">Migrations: Target -> Children</a><br><br>
+    <b><u>Sliders</u></b><br>
+1. <a href="documentationPage.html#TMRCASlider" target ="_blank">TMRCA</a><br>
+2. <a href="documentationPage.html#MinRadius" target ="_blank">Sample Minimum Radius</a><br>
+3. <a href="documentationPage.html#Intensity" target ="_blank">Intensity</a>
+</div>
+
+</div>
+<h2 style='text-align:center'>General advice
+    </h2>
+
+1) Be patient waiting for files to load.<br><br>
+
+There are several large files that your browser must download.<br>
+Any time you change the radius, an additional large file must be downloaded.<br>
+However, once you have downloaded these, the files stay in the cache for the future.<br>
+<br>
+2) This application is in Beta. <br><br>
+There could be bugs. Before contacting me to report a bug, please first try reloading the page. If that doesn't work, check the <a href="#CommonIssues">Common User Issues</a> section.<br>
+
+<h2 style='text-align:center'>Glossary</h2>
+<ul><li><b>TMRCA</b> - Time to Most Recent Common Ancestor</li><li>
+<b>formed/formation</b> - The process where one line begins to diverge from its siblings, evidenced by accumulation of unique SNPs.</li><li>
+<b>target haplogroup</b> - The current haplogroup of focus, indicated by the haplogroup / SNPs input field.</li><li>
+<b>downstream haplogroup</b> - Haplogroups that formed after a target haplogroup. Downstream in this sense means further along the flow of time. Children is a synonym.</li><li>
+<b>haplogroup root</b> - Each haplogroup supported by HRAS is a child of one of a set of haplogroup roots. The haplogroup roots are currently determined by how the YFull YTree and MTree are organized on the public YFull website. For the list of haplogroup roots, see <a href="#EnterSNP">Enter SNP</a></li>
+
+<br>
+<a id="CommonIssues"></a>
+<h2 style='text-align:center'>Common User Issues</h2>
+
+1) I cannot find my haplogroup.<br><br>
+
+See <a href="#EnterSNP">Enter SNP</a><br><br>
+
+2) The sample on the map is not indicative of the exact place I trace my descent.<br><br>
+
+HRAS only has access to the country and regional codes visible on the public YFull YTree page. <br>
+In the future there will be an integration with YSEQ customers' uniparental male and female line self-reported origins, exact to the latitude longitude they enter.<br><br>
+
+3) Some haplogroup centroids are computed over the water.<br><br>
+
+The haplogroup centroid is the haplogroup centroid, computed by an algorithm that takes sample geographic coordinates and their position in the Y / mtDNA tree into account. It is a relatively simple, deterministic (same inputs always result in same outputs) algorithm (not powered by AI) that does not take water or land terrain features into account.<br><br>
+See <a href="#Centroids">Centroids</a><br><br>
+
+<a id="DNAType"></a>
+<h2 style='text-align:center'>DNA type</h2>
+Click to switch between Y and mtDNA analysis modes.<br>
+
+<br>
+<a id="MapType"></a>
+<h2 style='text-align:center'>Map type</h2>
+Clicking a different map type will reset the map to that map type and load the current haplogroup.<br><br>
+
+Original Documentation of each map type:<br><br>
+<a href="https://phylogeographer.com/mt-heatmap/">Relative Frequency Heatmap (the page says mtDNA but methodology applies to both)</a><br>
+<a href="https://phylogeographer.com/frequency-heatmaps-methodology/">Relative Frequency Heatmap (Classic)</a><br>
+<a href="https://phylogeographer.com/diversity-heatmap-faq/">Diversity Heatmap</a><br><br>
+Relative Frequency (Classic) and Diversity Heatmaps use the <a href="https://www.patrick-wied.at/static/heatmapjs/plugin-leaflet-layer.html">Leaflet heatmap.js plugin</a> designed by Patrick Wied.<br>
+Relative Frequency Heatmap uses my own software for computing and rendering the relative frequency and is more accurate for our specific use case (it divides a target frequency surface by a denominator frequency surface for each point on the map), especially in revealing regional substructure.<br><br>
+You may notice some differences between the original classic and diversity heatmaps and how they appear in HRAS.<br>
+<ul><li>
+    The controls have been streamlined.
+</li><li>
+    The surfaces may look different for the same haplogroup the radius is now configurable.
+</li><li>
+    The relative frequency estimates in classic may be slightly different because the denominators come from the new codebase (computed in js rather than python) and the legend is calibrated with the more accurate relative frequencies computed by the newer heatmap version.
+</li><li>
+    The orginal diversity map always used the same radius for each sample. The HRAS version applies radius and intensity to each sample based on regional code area according to the same logic for each map type as defined in section <a href="#MinRadius">Sample Minimum Radius</a>.
+</li></ul>
+<a id="EnterSNP"></a>
+<h2 style='text-align:center'>Enter haplogroup or SNP</h2>
+
+Start typing the haplogroup or SNP, then click the desired subclade from the autocompleted results.<br><br>
+
+Only those haplogroups downstream of supported haplogroup roots are supported by HRAS. <br><br>
+Only the SNPs defining these haplogroups from the YFull <a href="https://www.yfull.com/tree/">YTree</a> or <a href="https://www.yfull.com/tree/">MTree</a> are supported.<br><br>
+Y-DNA root haplogroups: A00, A0, A1a, A1b1, B, C, D, E, F-Y27277, G, H, I1, I2, J1, J2, K-Y28299, L, M, N, O, Q, R1a, R1b, R2, S, T<br><br>
+mtDNA root haplogroups: DN, NA, U, R-a, R9c, R9b, F, R8, R7, R6, R5, R4, R32, R31, R30, R3, R2, T, J, R23, R22, R14, R13, R12'21, R10, R1, R0a'b, HV-b, HV-a, HV5, HV4, HV32, HV31, HV30, HV3, HV29, HV28, HV27, HV26, HV25, HV21, HV19, HV18, HV13, HV12, HV1, HV0k, HV0j, HV0i, HV0h, V, HV0a7, HV0a6, HV0a5, HV0a4, HV0a3, HV0a2, HV0a1, HV0-a, H, P, A, N10, N11, N13, N14, N1a1a, I, N1a1b1, N1a2, N1a3, N1b, N1c, N5, N2a, W, N21, N22, N3, N6, N7, N8, N9a, N9b, Y, ND, L0, L1, L2, L3a, L3b'f, L3c'd, L3e'i'k'x, L3h, M10, M11, M1'20'51, G, M12, M13'46'61, M14, M15, M16, M17, M19'53, M2, M21, M22, M23'75, M24'41, M25, M26, M27, M28, M29, M29'Q1, Q, M3, M31, M32'56, M33, M34'57, M35, M36, M39'70, M40, M42'74, M44, M4''67, M47, M48, M49, M5, M50, M52, M55'77, M58, M59, M6, M62'68, M69, M7, M71, M72, M73'79, M76, M78, C, Z, M8a, D, M80, M80'D1, M81, M82, M83, M84, M85, M86, E, M9a'b, M91, O, S, X, L4, L5'7, L6<br>
+
+<a id="AncientVsModern"></a>
+
+<h2 style='text-align:center'>Ancient vs Modern Samples</h2>
+
+HRAS provides an ancient / modern toggle to show the changes in relative frequency of a haplogroup between various ancient time intervals and today.<br>
+
+It should be noted that the reliability of the computed relative frequency of ancient samples will be lower than that of modern samples, due to having less overall samples and greater holes in coverage, i.e. areas where no ancient samples whatsoever have yet been recovered.<br>
+<br>
+<a id="Samples"></a>
+<h2 style='text-align:center'>Samples</h2>
+<figure><img class='docimage' src="$hrasImagesURLsamples_albania.png"/>
+<figcaption>J2b-Z2507 samples with Albania geographic code and no regional subcode arranged in concentric circles
+</figcaption></figure><br>
+Samples representing the same regional code are arranged in concentric circles around the center. The example above shows the J-Z2507 samples with geocodes for Albania, not specifying a more precise region within Albania. <br><br>
+<figure><img class='docimage' src="$hrasImagesURLJ2-Z2507_albania_centroids.png"/>
+<figcaption>
+"Migration From Target Subclade To Children" layer for J-Z2507. Because the J-Z638 centroid marker is cyan and J-Y15058 is salmon, the samples are marked with the corresponding color.
+</figcaption>
+</figure><br>
+The color of the sample corresponds to the color assigned to the subclade in the "Migration from Target to Children" view.<br>
+<a id="CountryStats"></a>
+<h2 style='text-align:center'>Country Statistics</h2>
+
+This layer adds a vertically aligned pie slice over each country center containing samples of the target haplogroup. <br>
+
+The radius of the pie slice indicates total number of samples for that country, regardless of their haplogroup.<br>
+
+The angle measure of the pie slice indicates the fraction of samples that are positive for the target haplogroup.<br>
+
+Clicking the country adds a popup showing a pie chart.<br>
+
+
+Statistics are computed based on the modern samples that trace their uniparental descent to / ancient samples that were found within a given country's modern borders.<br>
+
+What is displayed differs between ancient and modern sampling modes.<br>
+
+<figure><img class='docimage' src="$hrasImagesURLmodern_pie_chart_R1b-DF13.png" />
+<figcaption>Pie Chart showing breakdown of modern samples positive for R1b-DF13 with ENG country code on YFull
+</figcaption></figure><br>
+
+For modern, the whole pie represents all modern samples from that country that are positive for the haplogroup.<br>
+The sections indicate the number and proportion of samples in various downstream lineages.<br><br>
+
+<figure><img class='docimage' src="$hrasImagesURLancient_pie_chart_R1b-DF13.png" />
+    <figcaption>Pie Chart showing breakdown of ancient samples from 5000-3000 ybp with GBR country code on YFull
+</figcaption></figure><br>
+
+For ancient, the whole pie represents all ancient samples found within that country whose sample age falls within the specified time interval. <br>
+The sections indicate the number and proportion of ancient samples in each of various major haplogroups that YFull designates as [haplogroup roots].<br>
+<a id="Animation"></a>
+<h2 style='text-align:center'>Animation</h2>
+Clicking the animation button gradually slides the <a href="#TMRCASlider">TMRCA slider</a> from left to right, slowly adding to the map the samples and/or subclades computed centroids (depending on which are enabled) in the order of their subclade's TMRCA.
+<a id="Outliers"></a>
+<h2 style='text-align:center'>Outliers</h2>
+HRAS does not automatically determine whether samples from a certain region should be ignored on the basis of being extreme outliers.<br>
+You may specify which countries to exclude via the "Outliers" control.<br><br>
+<figure><img class='docimage' src="$hrasImagesURLoutliers.png"/>
+    <figcaption>J2b-L283 migrations to children showing J-Y146401 centroid computed as within Saudi Arabia by default
+    </figcaption></figure><br>
+
+    <figure><img class='docimage' src="$hrasImagesURLoutliers_india.png"/>
+        <figcaption>J2b-L283 migrations to children showing J-Y146401 centroid computed as Syria/Lebanon after declaring India as an outlier
+        </figcaption></figure><br>
+<a id="Centroids"></a>
+<h2 style='text-align:center'>Centroids</h2>
+
+The centroid is a representation of the approximate geographic center of the haplogroup as computed by the regional codes of the self-reported ancestry locations of samples and their position in the tree below the target haplogroup.<br><br>
+
+For a technical description of the algorithm <a href="$hrasDataURLCentroids_documentation.txt" target="_blank">Centroid Computation Algorithm</a><br><br>
+<a id="CentroidMetrics"></a>
+<h2 style='text-align:center'>Centroid Metrics</h2>
+<figure><img class='docimage' src="$hrasImagesURLcentroid_stats_docs.png" />
+    <figcaption>Centroid Metrics for J-Z1043
+</figcaption></figure><br>
+For each child subclade of the target haplogroup, Centroid Metrics displays the average distance from its children nodes to its computed centroid, along with other information.<br>
+A child node of a haplogroup is either a child subclade, a basal sample, or a regular sample in the case that the haplogroup has no child subclades.<br><br>
+"Elapsed Time" is the estimated elapsed time between the target haplogroup's TMRCA and the TMRCA of the relevant subclade.<br>
+"Mean Migration Rate" is computed by dividing the distance by elapsed time. Keep in mind that these figures are not to be taken as the absolute truth regarding the migration, but they are objectively computed by inputs.<br>
+<h3 style='text-align:center'>Theory</h3>
+Lower nodes-to-centroid distance is an <i>indicator</i> (read: not a guarantee) of higher reliability that the computed centroid represents the approximate geographic origin of that subclade's MRCA.<br>
+You could consider the <i>possibility</i> that the MRCA was living in that approximate area.<br>
+The child nodes there are, the more reliable the computed centroid.<br>
+However, the reliability should be called into question if you doubt the reliability of the computed centroids of any of the child nodes.<br>
+Or if an ancient sample that is nearly as old as the subclade's TMRCA was found in a completely different and impossibly distant region.<br>
+However, in that case the centroid computation algorithm should favor the older ancient sample proportional to its age.<br>
+<a id="MigrationToTarget"></a>
+<h2 style='text-align:center'>Migration from Haplogroup Root to Target</h2>
+<figure><img class='docimage' src="$hrasImagesURLmigration_from_hg_root_to_DF13.png" />
+    <figcaption >HRAS approximate theoretical migration of R1b to R1b-DF13 by connecting computed centroids</figcaption>
+</figure><br>
+HRAS connects the <a href="#Centroids">centroids</a> of subsequent branches with lines, producing an <i>approximate</i> migration path across the map.<br><br>
+
+Keep in mind that several factors make it unrealistic to expect that an algorithm with this kind of input data can 100% reliably compute the true migration path:<br>
+
+<ul><li>discrepancies in regional sampling rates</li>
+    <li>lack or paucity of ancient samples</li>
+    <li>errors in self-reported ancestral locations</li>
+    <li>lack of geographic consistency of self-reported ancestral locations</li>
+    <li>the ever-present possibility of mass migration from a homeland where all men in the original location either moved in the same direction or died out</li></ul><br>
+
+Keeping this in mind, researchers should consider the HRAS-computed centroids as just one bit of information that should be taken into consideration as part of a multidisciplinary-approach with other data - including samples from other sources and less readily quantifiable types of information from, but not limited to the archeaological, historical or climatological record.<br>
+
+<a id="MigrationsToChildren"></a>
+<h2 style='text-align:center'>Migrations from Target to Children</h2>
+<figure><img class='docimage' src="$hrasImagesURLmigrations_from_DF13_to_subclades_older_than_3000_years.png" />
+    <figcaption >HRAS approximate theoretical migration of R1b-DF13 to subclades older than 3000 years by connecting computed centroids</figcaption>
+</figure><br>
+HRAS connects the <a href="#Centroids">centroids</a> of subsequent branches with lines, producing an <i>approximate</i> migration path across the map.<br><br>
+
+Large and medium diamonds represent the immediate child and grandchildren subclades of the labeled subclades.<br>
+Smaller diamonds are used to represent all other downstream subclades.<br><br>
+Keep in mind that several factors make it unrealistic to expect that an algorithm with this kind of input data can 100% reliably compute the true migration path:<br>
+
+<ul><li>discrepancies in regional sampling rates</li>
+    <li>lack or paucity of ancient samples</li>
+    <li>errors in self-reported ancestral locations</li>
+    <li>lack of geographic consistency of self-reported ancestral locations</li>
+    <li>the ever-present possibility of mass migration from a homeland where all men in the original location either moved in the same direction or died out</li></ul><br>
+
+Keeping this in mind, researchers should consider the HRAS-computed centroids as just one bit of information that should be taken into consideration as part of a multidisciplinary-approach with other data - including samples from other sources and less readily quantifiable types of information from, but not limited to the archeaological, historical or climatological record.<br>
+
+<a id="DiversificationTimeline"></a>
+<h2 style='text-align:center'>Diversification Timeline</h2>
+
+<figure><img class='docimage' src="$hrasImagesURLO-M307_diversification_timeline.png" />
+<figcaption>Diversification Timeline for O-M307
+</figcaption></figure><br>
+The raw data used to compute the diversification over time graph are counts of how many lineages formed (using YFull nomenclature) during every 100 year interval going back in time to the target haplogroup's estimated TMRCA.<br><br>
+
+These raw counts are then smoothed using binomial coefficients [1,6,15,20,15,6,1]. So the smoothed figure for the number of lineages representing the hundred year interval 2500 years ago would be:<br><br>
+
+1/64 * 2800 ybp count + 6/64 * 2700 ybp count + 15/64 * 2600 ybp count + 20/64 * 2500 ybp count + 15/64 * 2400 ybp count + 6/64 * 2300 ybp count + 1/64 * 2200 ybp count<br><br>
+
+This graph can be exported as a SVG by clicking the button.
+
+<a id="TMRCASlider"></a>
+<h2 style='text-align:center'>TMRCA Time Slider</h2>
+Use this slider to hide samples and computed centroids for younger (by TMRCA) haplogroups.<br>
+You may want to use this to declutter the map of more recently formed geographic outliers or founder effects.<br>
+<a id="MinRadius"></a>
+<h2 style='text-align:center'>Sample Minimum Radius</h2>
+The minimum radius is the radius used in the heatmap for samples representing regions with less than 10,000 km2 area.<br>
+Samples represented by regional codes of larger area have correspondingly longer radius, but the intensity is reduced so that a sample always contributes the same overall weight on the map. <br>
+Increasing the minimum radius has the effect of smoothing the surface at the cost of losing any regional differentiation.<br><br>
+<h3 style='text-align:center'>Technical</h3>
+<figure><img class='docimage' src="$hrasImagesURLradius.png" />
+    <figcaption>Example effective relative radii (1-10) for various regional codes
+    </figcaption></figure><br>
+Two steps to get the effective minimum radius used by HRAS:<br>
+<ol><li>Divide the area of the geographic code's region by 10,000 km2 and then take the square root to get a number between 1-15</li><li>
+Translate this number to a 1-10 scale</li></ol>
+<a id="Intensity"></a>
+<h2 style='text-align:center'>Intensity</h2>
+By adjusting this slider you can increase or decrease the intensity of the heatmap.<br><br>For the relative frequency heatmap, the legend will update accordingly. <br>The diversity heatmap legend does not change because it is unitless.
+<a id="Future"></a>
+<h2 style='text-align:center'>Future</h2>
+<h3 style='text-align:center'>Geodesic Lines</h3>
+Use Geodesic lines to connect centroids to represent approximate migration paths. This will look better and be more accurate than the standard leaflet line in showing the shortest path between two points on the Earth. I found a leaflet plugin I can use.<br>
+<h3 style='text-align:center'>Migration Animation</h3>
+I plan to implement a similar functionality as PhyloGeographer that uses interpolation to gradually trace the path between connected centroids, from the haplogroup root to the target haplogroup.<br>
+<h3 style='text-align:center'>YSEQ Samples</h3>
+HRAS will integrate samples tested at <a href="https://www.yseq.net">YSEQ</a> that have specified uniparental male or female line geographic origins through the YSEQ interface.<br>
+<h3 style='text-align:center'>Research/Project Links</h3>
+I envision adding functionality to HRAS that will facilitate sharing of pertinent information by link that may be set by a haplogroup / surname clan researcher.<br>
+This could include links to projects and HRAS parameters (i.e. country outliers) / views that the researcher feels conveys useful information for someone viewing the target haplogroup.<br>
+Some features may require a subscription fee on behalf of the researcher (not regular user) to HRAS to support the maintenence and development of new features.
+</body>
+</html>

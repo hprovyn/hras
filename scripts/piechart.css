@@ -1,0 +1,147 @@
+.autocomplete {
+  position: relative;
+  display: inline-block;
+}
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 1px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4; 
+}
+.autocomplete-items div:hover {
+  background-color: #e9e9e9; 
+}
+.autocomplete-active {
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}
+
+ /* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slida {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slida:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slida {
+  background-color: #2196F3;
+}
+
+input:focus + .slida {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slida:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slida.round {
+  border-radius: 17px;
+}
+
+.slida.round:before {
+  border-radius: 50%;
+} 
+
+.wedge {
+    border-radius: 50%;
+}
+.wedge circle {
+  fill: none;
+  stroke: gold;
+  stroke-width: 32;
+  animation: rotate 1.5s ease-in;
+  opacity: 0.5;
+}
+.pie {
+  width: 200px;
+  border-radius: 50%;
+}
+
+.pie circle {
+  fill: none;
+  stroke: black;
+  stroke-width: 32;
+  animation: rotate 1.5s ease-in;
+  opacity: 0.5;
+  fill-opacity: 0;
+}
+.outline circle {
+    fill: none;
+    fill-opacity: 0;
+}
+.leaflet-pie-wedge {
+    background-color: transparent;
+    border-color: transparent;
+}
+.deviation-circle {
+    background-color: transparent;
+    border-color: transparent;
+}
+.pie-legend {
+    font: bold 6px sans-serif
+}
+.pie-chart-popup {
+    background-color: gray;
+    width: 250px;
+}
+.mySpan{
+   display: inline-block;
+   width: 320px;
+}
+.vertical-center {
+  display: inline-flex;
+  /*border: 1px solid #ddd;*/
+  align-items: center;
+}
+@keyframes rotate {
+  to {
+    x
+  } 
+}

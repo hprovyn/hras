@@ -1,0 +1,25 @@
+Centroid calculation for a target clade takes into account the self-reported, most distant known uniparental ancestor locations of all samples downstream of the clade, the YFull-estimated TMRCAs of the clade and all child subclades, and the burial locations (YFull region specificity for initial release) and ages of ancient samples.
+
+The initial release implementation does not take the sample rate of different countries or regions into account. 
+
+The initial release implementation does not take the positions of the samples of the target clade's next closest related sibling or cousin lines into account for the calculation of the centroid of the target subclade or any downstream subclades.
+
+The algorithm does not use Artificial Intelligence. 
+
+Instead, it is a simple, deterministic method that is applied recursively. So to compute the centroid of a clade, it is first required to compute the centroid of all its child subclades, which in turn require their child subclades to be computed, and so on, recursively.
+
+The centroid calculation at any given level, once supplied with computed centriod positions of its subclades, follows the exact same formula:
+
+1) Compute the weighted centroid of all child nodes, where the term centroid is the literal definition, i.e. the mean of the latitudes and longitudes of the child nodes. The child nodes are the basal samples along with the computed centroids of the child subclades. Ancient samples are weighted the most heavily, seconded to the computed centroids of older versus younger TMRCA subclades.
+
+If there are only one or two child nodes, stop and use this position.
+
+2) Find the most central child node. This is done by finding the child node with minimum average distance to all other child nodes at that level, using the same weighting system described above.
+
+3) Calculate the midpoint between the positions obtained through step 1 and 2. Use this position to represent the centroid.
+
+Optional [user can define a set of countries whose samples are be excluded in the computation]
+
+An advantage to using the midpoint as defined in step 3 is that subsequent subclades are less likely to have centroids computed to the exact same position, increasing the readibility of the theoretical computed migrations when overlayed on a map.
+
+A drawback to using the midpoint as defined in step 3 is that in the case of a near tie between two most central child nodes, the midpoints are significantly pulled in potentially opposite directions. This means a small change in the inputs can sometimes have an outsize impact on the computed midpoint. More complex logic can be developed to mitigate this in a future upgrade.
