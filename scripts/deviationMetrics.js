@@ -1143,7 +1143,7 @@ function addWatermarkControl(type) {
         width = '550px'
     }
     if (type == 'help') {
-        thehtml = '<iframe style="border:1px solid black;background: oldlace" class="resized" src="https://phylogeographer.com/data/documentationLinks.html" width="600" height="620"></iframe>'
+        thehtml = '<iframe style="border:1px solid black;background: oldlace" class="resized" src="' + installationRootURL + 'documentationLinks.html" width="600" height="620"></iframe>'
         width = '650px'
     }
     if (type == 'diversificationGraph') {
