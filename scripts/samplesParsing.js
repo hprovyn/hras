@@ -53,8 +53,8 @@ function parseKitsBelowSubclade(projectName, subclade, lines) {
           var radius = parseFloat(sampleSplit[3])
           var country = sampleSplit[4]
 
+          hgToPositions[hg].push([lat,lng,country,id])
           if (isDownstreamTargetClade) {
-            hgToPositions[hg].push([lat,lng,country,id])
 
             if (!isAncient(id)) {
               hgToCountriesRaw[hg].push(country)
