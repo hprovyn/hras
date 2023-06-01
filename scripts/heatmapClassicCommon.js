@@ -15,28 +15,6 @@ function addHeatMapClassic(input) {
         lmap.removeLayer(heatmapLayer)
     }
 
-    mapIcon = L.icon({
-        iconUrl: 'images/marker-red.png',
-        shadowUrl: 'images/marker-shadow.png',
-        iconSize:     [32, 44], // size of the icon
-    shadowSize:   [64, 89], // size of the shadow
-    iconAnchor:   [16, 44], // point of the icon which will correspond to marker's location
-    shadowAnchor: [32, 89],  // the same for the shadow
-    popupAnchor:  [0, -54] // point from which the popup should open relative to the iconAnchor
-
-      })
-
-    selectedIcon =L.icon({
-        iconUrl: 'images/marker-yellow.png',
-        shadowUrl: 'images/marker-shadow.png',
-        iconSize:     [32, 44], // size of the icon
-    shadowSize:   [64, 89], // size of the shadow
-    iconAnchor:   [16, 44], // point of the icon which will correspond to marker's location
-    shadowAnchor: [32, 89],  // the same for the shadow
-    popupAnchor:  [0, -54] // point from which the popup should open relative to the iconAnchor
-
-      })
-
     var inputNoAncient = input.filter(i => isAncient(i.id) == false)
 
     var testData = {
@@ -60,15 +38,8 @@ function addHeatMapClassic(input) {
       var circleified = circleifiedOutput["circles"]
       var centers = circleifiedOutput["centers"]
       for (var i = 0; i < circleified.length; i++) {
-          /*var marker = L.marker([circleified[i]["lat"], circleified[i]["lng"]], {icon:mapIcon, title:circleified[i]["id"]}).bindPopup(getPopup(circleified[i]),{
-  maxWidth: 560
-})
-          points.push(marker)
-          markers[circleified[i]["id"]] = marker;*/
           circ[circleified[i]["id"]] = circleified[i];
       }
-      
-      //pointLayer = L.layerGroup(points);
       
       heatmapLayer = new HeatmapOverlay(cfg);
       heatmapLayer.addTo(lmap);
@@ -96,42 +67,15 @@ function loadPrecomputed(radius) {
     var newIntenz = document.getElementById('hardmaxRange').value
     hardmaxFactor = (21 - parseInt(document.getElementById('hardmaxRange').value)) / 20
 
-    /*var intenzDelta = newIntenz - intenz
-    if (intenzDelta > 0) {
-        for (var i = 0; i < intenzDelta; i++) {
-            decrease()
-        }
-    } else {
-        for (var i = 0; i < intenzDelta * -1; i++) {
-            increase()
-        }
-    }
-    intenz = newIntenz
-    */
     adjustMax()
     addLegend()  
 
   }
 
-
-
-  var maxFactor = 0
-  var maxBase = 1.2
-  function increase() {
-      if (Math.pow(maxBase, maxFactor + 1) * actualMax < 1) {
-          maxFactor = maxFactor + 1
-          adjustMax()
-      }
-  }
-  function decrease() {
-      maxFactor = maxFactor - 1
-      adjustMax()
-  }
-  
   function adjustMax() {
       lmap.removeLayer(heatmapLayer)
       var testData = {
-          max: max * hardmaxFactor, //* Math.pow(maxBase, maxFactor),
+          max: max * hardmaxFactor,
           data: heatmapInput
       }      
       if (mapType == 'diversity') {
@@ -159,6 +103,3 @@ function getHeatmapConfig(minOpacity, maxOpacity, gradient) {
         valueField: 'count'
       };
 }
-
-  //btw this is buggy
-  var intenz = 3

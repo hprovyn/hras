@@ -173,6 +173,19 @@ function updateBasalBranchLinesWithIncompleteBasalAPosterioris() {
     }
 }
 
+function loadPrecomputed(radius) {
+    $.ajax({
+        type:    "GET",
+        async: false,
+        url:        getDenomURLbyRadius_old(radius) ,
+        success: function(text) {
+          //parsePrecomputed(text.split("\r\n"))
+          parseCompressed2(text.split("\r\n"))
+          loadTargetAndAddToMap()
+        }
+      })
+  }
+
 var effectiveTreeParentChildren = {}
 var branchWeights = {}
 function assignEffectiveBranchWeights(subclade, parentWeight) {
