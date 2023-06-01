@@ -998,7 +998,9 @@ function centroidsCheckboxClicked(e) {
     if (layerStates['downstream'] != true) {
         layerStates['downstream'] = true
         addUpdateCentroidsControls()
-        getAllCentroidModalities(clade,hgToPositions)
+        
+        var filtered = filterForCentroid(hgToPositions, deviationCountryExclusions)
+	getAllCentroidModalities(clade,filtered)
         setIconActive('downstream', 'downstream')
         //set icon url to active downstream
     } else {
