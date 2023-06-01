@@ -919,6 +919,13 @@ function countryExclusionCheckboxChanged(e) {
         removeCountryExclusion(e.value)
     }
     applyCountryFiltersAndRecalcCentroids()
+
+    var filtered = filterForCentroid(hgToPositions, deviationCountryExclusions)
+    if (layerStates['upstream']) {
+            removeRootSubcladeMarkerAndUpstreamNodesAndLines()
+	    computeMigrationsAndAddToMap(clade, filtered, unclesMode)
+	    layerStates['upstream']='true';
+    }
 }
 
 function addCountryExclusion(geocode) {
@@ -1018,7 +1025,9 @@ function migrationCheckboxClicked(e) {
 
 
     if (lmap.hasLayer(upstreamLinesGroup) == false) {
-        computeMigrationsAndAddToMap(clade, hgToPositions, unclesMode)
+
+        var filtered = filterForCentroid(hgToPositions, deviationCountryExclusions)
+        computeMigrationsAndAddToMap(clade, filtered, unclesMode)
         //it removes the layer before it adds new one!, deleting layerState
         layerStates['upstream'] = {'uncles': false}
         setIconActive('upstream', 'upstream')
