@@ -328,7 +328,7 @@ function addUpstreamNodesToMap(clade, centroid, positions, subclades, color, lev
                     weight -= 0.5
                     opacity -= 0.1
                 }
-                var theline = L.polyline([centroid,positions[i]], {color: 'black', opacity:opacity, weight:weight})
+                var theline = new L.Geodesic([centroid,positions[i]], {color: 'black', opacity:opacity, weight:weight})
                 upstreamLines.push(theline)
 
                 themarker.setZIndexOffset(-1 * level * 25)
@@ -420,7 +420,7 @@ function addDownstreamNodesToMap(clade, centroid, positions, subclades, parentCo
         //make line weight gradually less -> major subclades > subclades > samples
         
     
-        var theline = L.polyline([centroid,positions[i]], {color: 'black', opacity:.5, weight:theweight})
+        var theline = new L.Geodesic([centroid,positions[i]], {color: 'black', opacity:.5, weight:theweight})
 
 
         if (isSample) {
