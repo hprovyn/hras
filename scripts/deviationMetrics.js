@@ -40,9 +40,12 @@ function getBestPoint(points, clade, subcladeNames) {
 
 var kilometersPerDegree = 111.3
 function getDistance(a,b) {
-
+    var absdifflon = Math.abs(a[1]-b[1])
+    if (absdifflon > 180) {
+	    absdifflon = 360 - absdifflon
+    }
     var coslat = Math.cos((a[0] + b[0]) / 2 * Math.PI / 180)
-    return Math.sqrt((a[0]-b[0])*(a[0]-b[0])*coslat*coslat+(a[1]-b[1])*(a[1]-b[1]))
+    return Math.sqrt((a[0]-b[0])*(a[0]-b[0])*coslat*coslat+absdifflon*absdifflon)
 }
 
 function getMedian(arr) {
@@ -129,7 +132,7 @@ function computeCentroidAndDeviation(clade,allPoints,mode) {
             childCentroids[children[i]] = childResult
         }
     }
-    var centroidResult = computeCentroid(cladeCentroids, clade, subcladeNames)
+    var centroidResult = computeCentroidIDLSafe(cladeCentroids, clade, subcladeNames)
     if (centroidResult.hasOwnProperty('centroid')) {
         var thecentroid = centroidResult['centroid']
         var centroidMetrics = getAvgDistance(thecentroid, cladeCentroids, clade, subcladeNames)
@@ -147,7 +150,7 @@ function computeCentroidAndDeviation(clade,allPoints,mode) {
                 } else {
                     var bestPointResult = getBestPoint(cladeCentroids, clade, subcladeNames)
                     var bestPoint = bestPointResult["point"]
-                    var averagePoint = average(bestPoint, thecentroid)
+                    var averagePoint = averageIDLSafe(bestPoint, thecentroid)
                     var theavgdist = getAvgDistance(averagePoint, cladeCentroids, clade, subcladeNames)
                     return {'centroid': averagePoint, 'distanceMetrics':theavgdist,'children': childCentroids}
                 }

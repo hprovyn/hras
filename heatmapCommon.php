@@ -54,6 +54,7 @@ if (cladeFinderResultString != "") {
 <script src="<?php echo $scriptsRootURL . "heatmapCommonRefactored.js"?>"></script>
 <script src="<?php echo $scriptsRootURL . "heatmapLayerSampleRate.js"?>"></script>
 <script src="<?php echo $scriptsRootURL . "deviationMetrics.js"?>"></script>
+<script src="<?php echo $scriptsRootURL . "lonBuckets.js"?>"></script>
 <script src="<?php echo $scriptsRootURL . "onTheFlyAncient.js"?>"></script>
 
 
