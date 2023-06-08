@@ -94,9 +94,9 @@ function getMedian(arr) {
 }
 
 var minNodeWeight = 1
-var maxNodeWeight = 3
+var maxNodeWeight = 2
 var nodeWeightRange = maxNodeWeight - minNodeWeight
-var isAncientMultiplier = 2
+var isAncientMultiplier = 3
 
 function getNodeWeight(interval, parentAge, isAncient) {
     var weight = minNodeWeight + nodeWeightRange * (parentAge - interval) / parentAge
