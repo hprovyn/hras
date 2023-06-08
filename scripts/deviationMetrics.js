@@ -2,6 +2,7 @@ function computeCentroid(points, clade, subclades) {
     var sumlat = 0;
     var sumlon = 0;
     var weightTotal = 0;
+    var weights = []
     for (var i = 0; i < points.length; i++) {
         var thisPoint = points[i]
         var interval = tmrca[clade]
@@ -17,13 +18,48 @@ function computeCentroid(points, clade, subclades) {
         var weight = getNodeWeight(interval, tmrca[clade], isAncient)
         sumlat += thisPoint[0] * weight
         sumlon += thisPoint[1] * weight
+        weights.push(weight)
         weightTotal += weight
     }
     if (weightTotal == 0) {
         return {}
     }
+    var rawCentroid = [sumlat/weightTotal, sumlon/weightTotal]
+
+    if (points.length <= 2) {
+        //two points, cannot determine outliers
+        return {"centroid": rawCentroid}
+    }
+    //compute and apply penalties to outliers
+    //compute distances to raw centroid
+    var rawCentroid = [sumlat/weightTotal, sumlon/weightTotal]
+    var distances = []
+    var distancesSum = 0
+    for (var i = 0; i < points.length; i++) {
+        var thisDist = getDistance(points[i], rawCentroid)
+        distances.push(thisDist)
+        distancesSum += thisDist
+    }
+    if (distancesSum == 0) {
+        return {"centroid": rawCentroid}
+    }
+    var avgDist = distancesSum / points.length
+    sumlat = 0
+    sumlon = 0
+    weightTotal = 0
+    for (var i = 0; i < points.length; i++) {
+        var outlierPenalty = 1
+        if (distances[i] != 0) {
+            outlierPenalty = Math.min(1, (avgDist / distances[i]) ** 2)
+            weights[i] *= outlierPenalty
+        }
+        sumlat += points[i][0] * weights[i]
+        sumlon += points[i][1] * weights[i]
+        weightTotal += weights[i]
+    }
     return {"centroid": [sumlat/weightTotal, sumlon/weightTotal]}
 }
+
 
 function getBestPoint(points, clade, subcladeNames) {
     var bestPoint = points[0]
