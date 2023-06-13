@@ -373,7 +373,5 @@ var gradient = {'0':'white',
 var cfg = getHeatmapConfig(minOpacity, maxOpacity, gradient)
 var scalePercentages = ["", "", "40%", "66%", "80%", "100%"];
 
-function addLegend() {
-    var text = document.getElementById('legend')
-    text.innerHTML = 'Relative Diversity<br><div style="width:100%"><div style="width:10%;float:left"><img src="' + imagesDir + 'diversity_heatmap_legend.png" height="12%"></div><div style="margin-left:10%;font-size:10">' + scalePercentages[5] + '<br>' + scalePercentages[4] + '<br>' + scalePercentages[3] + '<br>' + scalePercentages[2] + '<br>' + scalePercentages[1] + '<br>' + scalePercentages[0] + '</div></div>'
-}
+var legendTitle = 'Relative Diversity'
+var legendImage = 'diversity_heatmap_legend.png'

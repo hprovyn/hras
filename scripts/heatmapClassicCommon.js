@@ -103,3 +103,9 @@ function getHeatmapConfig(minOpacity, maxOpacity, gradient) {
         valueField: 'count'
       };
 }
+
+
+function addLegend() {
+    var text = document.getElementById('legend')
+    text.innerHTML = legendTitle + '<br><div style="width:100%"><div style="width:10%;float:left"><img src="' + imagesDir + legendImage + '" height="12%"></div><div style="margin-left:10%;font-size:10">' + scalePercentages[5] + '<br>' + scalePercentages[4] + '<br>' + scalePercentages[3] + '<br>' + scalePercentages[2] + '<br>' + scalePercentages[1] + '<br>' + scalePercentages[0] + '</div></div>'
+}

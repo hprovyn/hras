@@ -88,10 +88,8 @@ function loadTargetAndAddToMap() {
     //addMarkers()
   }
 
-  function addLegend() {
-    var text = document.getElementById('legend')
-    text.innerHTML = 'Relative Frequency<br><div style="width:100%"><div style="width:10%;float:left"><img src="' + imagesDir + 'classic_heatmap_legend.png" height="12%"></div><div style="margin-left:10%;font-size:10">' + scalePercentages[5] + '<br>' + scalePercentages[4] + '<br>' + scalePercentages[3] + '<br>' + scalePercentages[2] + '<br>' + scalePercentages[1] + '<br>' + scalePercentages[0] + '</div></div>'
-}
+var legendTitle = 'Relative Frequency'
+var legendImage = 'classic_heatmap_legend.png'
 
 function getAlphaComputedMax(radius) {
     var qMapInput = Object.keys(targetPointRadiiMap).map(function(k) {
