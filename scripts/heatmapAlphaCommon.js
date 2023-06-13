@@ -430,7 +430,7 @@ function addLegend(hardMax) {
 
 
   // attach container to document
-  document.getElementById("legend").innerHTML = "<br>Relative Frequency<br>"
+  document.getElementById("legend").innerHTML = "Relative Frequency<br>"
   document.getElementById("legend").appendChild(svg1);
 }
 

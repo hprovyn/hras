@@ -115,7 +115,7 @@ function addWatermark() {
             var text = L.DomUtil.create('div');
             text.id = "info_text";
             text.innerHTML = getWatermarkFromTemplate(title, description, version);
-            text.innerHTML += "<br><br><form autocomplete='off' id='lookup' onsubmit='submitNewClade();'><div class='autocomplete' style='width:150px;' overflow='scroll'><input type='text' style='width:150px;' id='newlookup' name='newlookup'  placeholder='SNP or haplogroup' ></div></form>"
+            text.innerHTML += "<br><form style='margin-top:5px' autocomplete='off' id='lookup' onsubmit='submitNewClade();'><div class='autocomplete' style='width:150px;' overflow='scroll'><input type='text' style='width:150px;' id='newlookup' name='newlookup'  placeholder='SNP or haplogroup' ></div></form>"
             text.innerHTML += '<div id="livingDeadControlDiv"></div>'
             text.innerHTML += '<div id="ontheflyancientslider"></div>'
             text.innerHTML += '<div id="pieChartCheckboxDiv"></div>'
