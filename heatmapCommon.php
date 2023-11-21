@@ -56,6 +56,7 @@ if (cladeFinderResultString != "") {
 <script src="<?php echo $scriptsRootURL . "deviationMetrics.js"?>"></script>
 <script src="<?php echo $scriptsRootURL . "lonBuckets.js"?>"></script>
 <script src="<?php echo $scriptsRootURL . "onTheFlyAncient.js"?>"></script>
+<script src="<?php echo $scriptsRootURL . "articles.js"?>"></script>
 
 
 <script src="<?php echo $commonHeatmapJS_source_url; ?>"></script>

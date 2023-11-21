@@ -648,7 +648,12 @@ var optionalLayerControlsConfig = {
             "title": "Clade Finder",
             "id": "cladefinder",
             "icon": imagesDir + "cladefinder.png"
-        }
+        },
+	{
+            "title": "Research",
+            "id": "research",
+            "icon": imagesDir + "research.png"
+	}
     ]
 }
 
@@ -671,6 +676,9 @@ function optionalLayerControlClicked(layerControl) {
     if (layerControl == "cladefinder") {
         watermarkControlClicked(layerControl)
         //shoppingCartControlClicked()
+    }
+    if (layerControl == "research") {
+        watermarkControlClicked(layerControl)
     }
 }
 
@@ -1208,6 +1216,16 @@ function addWatermarkControl(type) {
     if (type == 'centroidStatsImg') {
         thehtml = '<div id="" style="overflow:scroll; height:600px;border:1px solid black;background: oldlace">' + getCentroidStatsHTML() + "</div>"
     }
+    if (type == 'research') {
+	
+	if (layerStates['articles'] != project) {
+		getArticles(dnaType, project)
+	}
+
+        thehtml = '<img src="https://phylogeographer.com/scripts/images/hrasi.png" width="50%"><div id="articleFilters">' + getArticleFilters() + '</div><div id="articles" style="overflow:scroll; height:600px;border:1px solid black;background: oldlace">' + getArticlesTableForClade() + "</div>"
+	width = '850px'
+    }
+    
     
     L.Control.commonWatermark = L.Control.extend({
         onAdd: function(map) {
