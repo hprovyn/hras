@@ -965,6 +965,7 @@ function countryExclusionCheckboxChanged(e) {
     } else {
         removeCountryExclusion(e.value)
     }
+    updateGroupChecksForCountryClicked(e.value, e.checked)
     applyCountryFiltersAndRecalcCentroids()
 
     var filtered = filterForCentroid(hgToPositions, deviationCountryExclusions)
@@ -1006,20 +1007,359 @@ function getCountriesRepresented() {
     return countryNames.map(c => c['code'])
 }
 
+var countryCodeToGroups = {'AFG': 'as,sa',
+'AGO': 'af',
+'ALA': 'eu,scand',
+'ALB': 'eu,cont',
+'AND': 'eu,cont',
+'ANT': 'am',
+'ARG': 'am',
+'ARM': 'as',
+'ASM': 'oc',
+'ATG': 'am',
+'AUS': 'oc',
+'AUT': 'eu,cont',
+'AZE': 'as',
+'BDI': 'af',
+'BEL': 'eu,cont',
+'BEN': 'af',
+'BFA': 'af',
+'BGD': 'as,sa',
+'BGR': 'eu,cont',
+'BHR': 'as,me',
+'BHS': 'am',
+'BIH': 'eu,cont',
+'BLR': 'eu,cont',
+'BLZ': 'am',
+'BMU': 'am',
+'BOL': 'am',
+'BRA': 'am',
+'BRB': 'am',
+'BRN': 'as',
+'BTN': 'as,sa',
+'BWA': 'af',
+'CAF': 'af',
+'CAN': 'am',
+'CHE': 'eu,cont',
+'CHL': 'as',
+'CHN': 'am',
+'CIV': 'af',
+'CMR': 'af',
+'COD': 'af',
+'COG': 'af',
+'COK': 'oc',
+'COL': 'am',
+'COM': 'af',
+'CPV': 'af',
+'CRI': 'am',
+'CUB': 'am',
+'CYP': 'as,me',
+'CZE': 'eu,cont',
+'DEU': 'eu,cont',
+'DJI': 'af',
+'DMA': 'am',
+'DNK': 'eu,cont,scand',
+'DOM': 'am',
+'DZA': 'af',
+'ECU': 'am',
+'EGY': 'af,me',
+'ENG': 'eu,bi',
+'ERI': 'af',
+'ESH': 'af',
+'ESP': 'eu,cont',
+'EST': 'eu,cont',
+'ETH': 'af',
+'FIN': 'eu,cont,scand',
+'FJI': 'oc',
+'FRA': 'eu,cont',
+'FRO': 'eu,scand',
+'FSM': 'oc',
+'GAB': 'af',
+'GBR': 'eu,bi',
+'GEO': 'eu',
+'GGY': 'eu,bi',
+'GHA': 'af',
+'GIB': 'eu,cont',
+'GIN': 'af',
+'GMB': 'af',
+'GNB': 'af',
+'GNQ': 'af',
+'GRC': 'eu,cont',
+'GRD': 'am',
+'GRL': 'am',
+'GTM': 'am',
+'GUM': 'oc',
+'GUY': 'am',
+'GWD': 'af',
+'HKG': 'as',
+'HND': 'am',
+'HRV': 'eu,cont',
+'HTI': 'am',
+'HUN': 'eu,cont',
+'IDN': 'as',
+'IMN': 'eu,bi',
+'IND': 'as,sa',
+'IRL': 'eu,bi',
+'IRN': 'as,me',
+'IRQ': 'as,me',
+'ISL': 'eu,scand',
+'ISR': 'as,me',
+'ITA': 'eu,cont',
+'JAM': 'am',
+'JEY': 'eu,bi',
+'JOR': 'as,me',
+'JPN': 'as',
+'KAZ': 'as',
+'KEN': 'af',
+'KGZ': 'as',
+'KHM': 'as',
+'KIR': 'oc',
+'KNA': 'am',
+'KOR': 'as',
+'KWT': 'as,me',
+'LAO': 'as',
+'LBN': 'as,me',
+'LBR': 'af',
+'LBY': 'af',
+'LCA': 'am',
+'LIE': 'eu,cont',
+'LKA': 'as,sa',
+'LSO': 'af',
+'LTU': 'eu,cont',
+'LUX': 'eu,cont',
+'LVA': 'eu,cont',
+'MAC': 'as',
+'MAR': 'af',
+'MCO': 'eu,cont',
+'MDA': 'eu,cont',
+'MDG': 'af',
+'MDV': 'as,sa',
+'MEX': 'am',
+'MHL': 'oc',
+'MKD': 'eu,cont',
+'MLI': 'af',
+'MLT': 'eu',
+'MMR': 'as',
+'MNE': 'eu,cont',
+'MNG': 'as',
+'MOZ': 'af',
+'MRT': 'af',
+'MSL': 'af',
+'MSR': 'am',
+'MTQ': 'am',
+'MUS': 'af',
+'MWI': 'af',
+'MYS': 'as',
+'NAM': 'af',
+'NER': 'af',
+'NFK': 'oc',
+'NGA': 'af',
+'NIC': 'am',
+'NIU': 'oc',
+'NLD': 'eu,cont',
+'NOR': 'eu,cont,scand',
+'NPL': 'as,sa',
+'NRU': 'oc',
+'NZL': 'oc',
+'OMN': 'as,me',
+'PAK': 'as,sa',
+'PAN': 'am',
+'PER': 'am',
+'PHL': 'as',
+'PLW': 'oc',
+'PNG': 'oc',
+'POL': 'eu,cont',
+'PRI': 'am',
+'PRK': 'as',
+'PRT': 'eu,cont',
+'PRY': 'am',
+'PSE': 'as,me',
+'PYF': 'oc',
+'QAT': 'as,me',
+'ROU': 'eu,cont',
+'RUS': 'eu,cont',
+'RWA': 'af',
+'SAU': 'as,me',
+'SCT': 'eu,bi',
+'SDN': 'af',
+'SEN': 'af',
+'SGP': 'as',
+'SLB': 'oc',
+'SLE': 'af',
+'SLV': 'am',
+'SMR': 'eu,cont',
+'SOM': 'af',
+'SRB': 'eu,cont',
+'SSD': 'af',
+'STP': 'af',
+'SUR': 'am',
+'SVK': 'eu,cont',
+'SVN': 'eu,cont',
+'SWE': 'eu,cont,scand',
+'SWZ': 'af',
+'SYC': 'af',
+'SYR': 'as,me',
+'TCD': 'af',
+'TGO': 'af',
+'THA': 'as',
+'TJK': 'as',
+'TKL': 'oc',
+'TKM': 'as',
+'TLS': 'as',
+'TON': 'oc',
+'TTO': 'am',
+'TUN': 'af',
+'TUR': 'as,me',
+'TUV': 'oc',
+'TWN': 'as',
+'TZA': 'af',
+'UAE': 'as,me',
+'UGA': 'af',
+'UKR': 'eu,cont',
+'URY': 'am',
+'USA': 'am',
+'UZB': 'as',
+'VCT': 'am',
+'VEN': 'am',
+'VNM': 'as',
+'VUT': 'oc',
+'WLF': 'oc',
+'WLS': 'eu,bi',
+'WSM': 'oc',
+'YEM': 'as,me',
+'ZAF': 'af',
+'ZMB': 'af',
+'ZWE': 'af',
+}
+
+var countryGroupLabels = {"eu": "Europe", "af": "Africa", "as": "Asia", "am":"Americas","oc":"Oceania","cont":"Continental Europe","bi":"British Isles","scand":"Scandinavia","me":"Middle East","sa":"South Asia"}
+var continents = ["am","af","eu","as","oc"]
+var otherRegionalGroupings = ["bi","cont","scand","me","sa"]
+var allRegionalGroupings = continents.concat(otherRegionalGroupings)
+var theRegionalGroupingCountries = {}
+
+function getRegionalGroupingCountries(countryCodes) {
+    
+    for (var i = 0; i < allRegionalGroupings.length; i++) {
+        theRegionalGroupingCountries[allRegionalGroupings[i]] = []
+    }
+    for (var i = 0; i < countryCodes.length; i++) {
+        var thisCode = countryCodes[i]
+        var theseGroups = countryCodeToGroups[thisCode].split(",")
+        for (var j = 0; j < theseGroups.length; j++) {
+            var thisGroup = theseGroups[j]
+            theRegionalGroupingCountries[thisGroup].push(thisCode)
+        }
+    }
+}
+
+function entireCountryGroupingExcluded(group) {
+    var allExcluded = true
+    var theCountries = theRegionalGroupingCountries[group]
+    for (var i = 0; i < theCountries.length; i++) {
+        var code = theCountries[i]
+        if (deviationCountryExclusions.indexOf(code) == -1) {
+            allExcluded = false
+        }
+    }
+    return allExcluded
+}
+
+function intersect(a, b) {
+    var setA = new Set(a);
+    var setB = new Set(b);
+    var intersection = new Set([...setA].filter(x => setB.has(x)));
+    return Array.from(intersection);
+}
+
 function createExclusionsHTML() {
+    var tableGroupsStyle = "background-color:lightgray"
     var html = '<font size="+2">Set Outliers</font><br><i>Recalculates centroids excluding these samples</i><br><table>'
     var countries = getCountriesRepresented()
     html += '<tr><td><input type="checkbox" onchange="resetCountryExclusions()"></td><td>Reset</td></tr>'
+    getRegionalGroupingCountries(countries)
+    var regionalGroupingKeys = Object.keys(theRegionalGroupingCountries)
+    
+    var repr_conts = intersect(regionalGroupingKeys, continents)
+    var repr_regs = intersect(regionalGroupingKeys, otherRegionalGroupings)
+
+    function addCountryGroupTRs(thekeys) {
+        for (var i = 0; i < thekeys.length; i++) {
+            var regionalGroup = thekeys[i]
+            var checked = ""
+            if (entireCountryGroupingExcluded(regionalGroup)) {
+                checked = "checked"
+            }
+            html += "<tr><td>"+'<input id="exc_group_' + regionalGroup + '" ' +checked+' type="checkbox" value="'+regionalGroup+'" onchange="countryExclusionGroupClicked(this)">'+"</td><td>"+'<font size="-1">'+countryGroupLabels[regionalGroup] + '</font></td></tr>'
+        }
+    }
+    html += '<tr ><td></td><td style='+tableGroupsStyle+'>Continents</td></tr>'
+
+    addCountryGroupTRs(repr_conts)
+    html += '<tr><td></td><td style='+tableGroupsStyle+'>Regions</td></tr>'
+
+    addCountryGroupTRs(repr_regs)
+
+    
+    html += '<tr><td></td><td style='+tableGroupsStyle+'>Countries</td></tr>'
     for (var i = 0; i < countries.length; i++) {
         var code = countries[i]
         var checked = ""
         if (deviationCountryExclusions.indexOf(code) != -1) {
             checked = "checked"
         }
-        html += "<tr><td>"+'<input '+checked+' type="checkbox" value="'+code+'" onchange="countryExclusionCheckboxChanged(this)">'+"</td><td>"+'<font size="-1">'+countryCoords[code]['name'] + '</font></td></tr>'//<td>"+code+"</td>
+        html += "<tr><td>"+'<input id="exc_country_' + code+ '" '+checked+' type="checkbox" value="'+code+'" onchange="countryExclusionCheckboxChanged(this)">'+"</td><td>"+'<font size="-1">'+countryCoords[code]['name'] + '</font></td></tr>'//<td>"+code+"</td>
     }
     html += "</table>"
     return html
+}
+
+function assignGroupCheckStateBasedOnExclusions() {
+    var regionalGroupingKeys = Object.keys(theRegionalGroupingCountries)
+    for (var i = 0; i < regionalGroupingKeys.length; i++) {
+        var regionalGroup = regionalGroupingKeys[i]
+        var checked = false
+        if (entireCountryGroupingExcluded(regionalGroup)) {
+            checked = true
+        }
+        document.getElementById("exc_group_" + regionalGroup).checked = checked    
+    }
+}
+
+function updateGroupChecksForCountryClicked(country, checked) {
+    for (var i = 0; i < allRegionalGroupings.length; i++) {
+        var theGroup = allRegionalGroupings[i]
+        if (theRegionalGroupingCountries[theGroup].indexOf(country) != -1) {
+            if (checked) {
+                if (entireCountryGroupingExcluded(theGroup)) {
+                    document.getElementById('exc_group_' + theGroup).checked = true
+                }
+            } else {
+                if (document.getElementById('exc_group_' + theGroup).checked) {
+                    document.getElementById('exc_group_' + theGroup).checked = false
+                }
+            }
+        }
+    }
+}
+
+function countryExclusionGroupClicked(e) {
+    var countries = theRegionalGroupingCountries[e.value]
+    if (e.checked) {
+        for (var i = 0; i < countries.length; i++) {
+            if (deviationCountryExclusions.indexOf(countries[i]) == -1) {
+                addCountryExclusion(countries[i])
+                document.getElementById('exc_country_' + countries[i]).checked = true
+            }
+        }
+    } else {
+        for (var i = 0; i < countries.length; i++) {
+            removeCountryExclusion(countries[i])
+            document.getElementById('exc_country_' + countries[i]).checked = false
+        }
+    }
+    assignGroupCheckStateBasedOnExclusions()
+    applyCountryFiltersAndRecalcCentroids()
 }
 
 function resetCountryExclusions() {
