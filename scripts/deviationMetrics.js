@@ -1276,7 +1276,7 @@ function createExclusionsHTML() {
     var tableGroupsStyle = "background-color:lightgray"
     var html = '<font size="+2">Set Outliers</font><br><i>Recalculates centroids excluding these samples</i><br><table>'
     var countries = getCountriesRepresented()
-    html += '<tr><td><input type="checkbox" onchange="resetCountryExclusions()"></td><td>Reset</td></tr>'
+    html += '<tr><td><button onclick="resetCountryExclusions()">Reset</button></td><td></td></tr>'
     getRegionalGroupingCountries(countries)
     var regionalGroupingKeys = Object.keys(theRegionalGroupingCountries)
     
@@ -1363,13 +1363,28 @@ function countryExclusionGroupClicked(e) {
 }
 
 function resetCountryExclusions() {
-    countryExclusionsControlClicked()
     deviationCountryExclusions = []
-    countryExclusionsControlClicked()
+    var countries = getCountriesRepresented()
+    for (var i = 0; i < countries.length; i++) {
+        if (document.getElementById('exc_country_' + countries[i]).checked) {
+            document.getElementById('exc_country_' + countries[i]).checked = false
+        }
+    }
+    var regionalGroupingKeys = Object.keys(theRegionalGroupingCountries)
+    for (var i = 0; i < regionalGroupingKeys.length; i++) {
+        if (document.getElementById('exc_group_' + regionalGroupingKeys[i]).checked) {
+            document.getElementById('exc_group_' + regionalGroupingKeys[i]).checked = false
+        }
+    }
     
-    //big rethink necessary here
-    getAllCentroidModalities(clade, hgToPositions)
+    applyCountryFiltersAndRecalcCentroids()
 
+    var filtered = filterForCentroid(hgToPositions, deviationCountryExclusions)
+    if (layerStates['upstream']) {
+        removeRootSubcladeMarkerAndUpstreamNodesAndLines()
+	    computeMigrationsAndAddToMap(clade, filtered, unclesMode)
+	    layerStates['upstream']='true';
+    }
 }
 
 function deactivateCentroidsLayer() {
