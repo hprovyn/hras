@@ -1577,7 +1577,7 @@ function addWatermarkControl(type) {
 		getArticles(dnaType, project)
 	}
 
-        thehtml = '<img src="https://phylogeographer.com/scripts/images/hrasi.png" width="50%"><div id="articleFilters">' + getArticleFilters() + '</div><div id="articles" style="overflow:scroll; height:600px;border:1px solid black;background: oldlace">' + getArticlesTableForClade() + "</div>"
+        thehtml = '<img src="https://phylogeographer.com/scripts/images/hrasi.png" width="50%"><div id="articleFilters">' + getArticleFilters() + '</div><div id="articles" style="overflow:scroll; height:600px;border:1px solid black;background: oldlace">' + getArticlesTableForClade("Relevance") + "</div>"
 	width = '850px'
     }
     

@@ -98,26 +98,33 @@ function articlesTable(filteredArticles, headers, tableName, sortBy, sortParams)
         
     }
     html += "</tr>"
-    if (filteredArticles.length > 0 && sortBy && filteredArticles[0].hasOwnProperty(sortBy)) 
-	{
-	var first = filteredArticles[0][sortBy]
-	if (typeof first == 'number') {
-	    filteredArticles.sort((a,b)=>a[sortBy] - b[sortBy])
-	} else {
-		filteredArticles.sort((a,b)=>a[sortBy].localeCompare(b[sortBy]))
+    if (filteredArticles.length > 0 && sortBy && filteredArticles[0].hasOwnProperty(sortBy)) {
+        var first = filteredArticles[0][sortBy]
+        if (sortBy == "Relevance") {
+            filteredArticles.sort((a,b)=>parseInt(b[sortBy].split("|||||")[0]) - parseInt(a[sortBy].split("|||||")[0]))
+        } else {
+            if (typeof first == 'number') {
+                filteredArticles.sort((a,b)=>a[sortBy] - b[sortBy])
+            } else {
+                //sort array length of likes, not alphanumeric w/ svg
+                filteredArticles.sort((a,b)=>a[sortBy].localeCompare(b[sortBy]))
+            }
+        }
 	}
-    }
 	for( var i = 0; i < filteredArticles.length; i++) {
         html += "<tr>"
 		for( var j = 0; j < headers.length; j++) { 
-	if (dispOrder[j] == 'Title') {
-		var titleLink = filteredArticles[i][dispOrder[j]].split("|||||")
-		
-		html += "<td onclick=\"window.open('//" + titleLink[1] + "', '_blank')\" style=\"overflow:hidden;cursor:pointer\">" + titleLink[0] + "</td>"
-	} else {
-
-            html += "<td style=\"overflow:hidden\">"+filteredArticles[i][dispOrder[j]]+"</td>"
-	}
+            if (dispOrder[j] == 'Title') {
+                var titleLink = filteredArticles[i][dispOrder[j]].split("|||||")
+                
+                html += "<td onclick=\"window.open('//" + titleLink[1] + "', '_blank')\" style=\"overflow:hidden;cursor:pointer\">" + titleLink[0] + "</td>"
+            } else {
+                if (dispOrder[j] == 'Relevance') {
+                    html +=  "<td style=\"overflow:hidden\">"+filteredArticles[i][dispOrder[j]].split("|||||")[1]+"</td>"
+                } else {
+                    html += "<td style=\"overflow:hidden\">"+filteredArticles[i][dispOrder[j]]+"</td>"
+                }
+            }
         }
         html += "</tr>"
     }
@@ -242,15 +249,18 @@ function getArticlesAllHgsTable(articleId, sortBy) {
 
 function getArticlesTableForClade(sortBy) {
     var filtered = filterArticles(articles, clade)
-    var headers = [{"field": "PUB_YEAR", "label": "Year", "width":"40","order":2, "sortable": true},
-    {"field": "ADMIN_HG", "label": "Haplogroup", "width": "50", "order":3, "sortable": true},
-    {"field": "TMRCA", "label": "TMRCA", "width":"50", "order":4, "sortable": true},
+    var headers = [{"field": "PUB_YEAR", "label": "Year", "width":"40","order":4, "sortable": true},
+    {"field": "RELEVANCE", "label": "Relevance", "width": "50", "order":2, "sortable": true},
+
+    {"field": "SCOPE", "label": "Scope", "width": "50", "order":3},
+    {"field": "ADMIN_HG", "label": "Haplogroup", "width": "50", "order":5, "sortable": true},
+    {"field": "TMRCA", "label": "TMRCA", "width":"50", "order":6, "sortable": true},
     {"field": "ART_TYPE", "label": "Type", "width":"40", "order":1, "sortable": true},
     {"field": "TITLE", "label": "Title", "width":'450', "order":0},
-    {"field": "LIKE", "label": "Likes", "width":"40", "order":5, "sortable": true},
+    {"field": "LIKE", "label": "Likes", "width":"40", "order":7, "sortable": true},
 //    {"field": "DISLIKE", "label": "Dislikes", "width":"40", "order":6},
-    {"field": "N/A", "label": "N/A", "width":"40","order":6},
-    {"field": "MORE", "label": " ", "width":"40","order":7}]  
+    {"field": "N/A", "label": "N/A", "width":"40","order":8},
+    {"field": "MORE", "label": " ", "width":"40","order":9}]  
     var tableReady = []
     for (var i = 0 ; i < filtered.length; i++) {
         var thetableready = {}
@@ -283,6 +293,30 @@ function getArticlesTableForClade(sortBy) {
                 if (thisfield == "TMRCA") {
                     thetableready[thislabel] = tmrca[thearticle["ADMIN_HG"]]
                 }
+		if (thisfield == "RELEVANCE") {
+            var thistmrca = tmrca[thearticle["ADMIN_HG"]]
+            var relevance = 0
+			if (tmrca[clade] > thistmrca) {
+                relevance = thistmrca/tmrca[clade]
+				
+			} else {
+                relevance = tmrca[clade]/thistmrca
+				
+            }
+            thetableready[thislabel] = Math.round(100*relevance) + "|||||" + getHorizBarSVG(relevance)
+		}
+		if (thisfield == "SCOPE") {
+			var thistmrca = tmrca[thearticle["ADMIN_HG"]]
+			if (clade == thearticle["ADMIN_HG"]) {
+				thetableready[thislabel] = "Exact"
+			} else {
+				if (tmrca[clade] > thistmrca) {
+					thetableready[thislabel] = "More specific" 
+				} else {
+					thetableready[thislabel] = "More general"
+				}
+			}
+		}
                 if (thisfield == "LIKE") {
                     thetableready[thislabel] = '<img width="25px" src="https://phylogeographer.com/scripts/images/like.png"></img> ' + thearticle['RATINGS']['LIKE'].length
                 }
@@ -317,3 +351,14 @@ function sortArticles(tableName, sortBy, params) {
 //sort on tmrca?
 
 //rows.sort((a,b) => parseInt(a[0].substring(5)) > parseInt(b[0].substring(5)))
+
+function getHorizBarSVG(frac) {
+    var width = 90 * frac
+    var fillColor = rgbToHex(HSVtoRGB(getGreenYellowRedHue(frac),1,1))
+    var thesvg =  '<svg width="100" height="10"><rect x="5" y="1" width="'+width+'" height="8" style="fill:'+fillColor +';stroke:black;stroke-width:1;fill-opacity:1;stroke-opacity:1" /></svg> '
+    return thesvg
+}
+    
+function getGreenYellowRedHue(frac) {
+    return 1/3 * frac
+}
