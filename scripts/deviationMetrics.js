@@ -10,8 +10,8 @@ function computeCentroid(points, clade, subclades) {
         if (tmrca.hasOwnProperty(subclades[i])) {
             interval = tmrca[clade] - tmrca[subclades[i]]
         } else {
-            if (ancient.hasOwnProperty(subclades[i])) {
-                interval = Math.max(0,tmrca[clade] - ancient[subclades[i]]['ybp'])
+            if (ancientIds.indexOf(subclades[i]) != -1) {
+                interval = Math.max(0,tmrca[clade] - otfaSamples.filter(otfa => otfa['id'] == subclades[i])[0]['ybp'])
                 isAncient = true
             }
         }
@@ -131,8 +131,8 @@ function getAvgDistance(point, points, clade, subclades) {
         if (tmrca.hasOwnProperty(subclades[i])) {
             interval = tmrca[clade]-tmrca[subclades[i]]
         } else {            
-            if (ancient.hasOwnProperty(subclades[i])) {
-                interval = Math.max(0,tmrca[clade] - ancient[subclades[i]]['ybp'])
+            if (ancientIds.indexOf(subclades[i]) != -1) {
+                interval = Math.max(0,tmrca[clade] - otfaSamples.filter(otfa => otfa['id'] == subclades[i])[0]['ybp'])
                 isAncient = true
             }
         }
