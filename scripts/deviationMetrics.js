@@ -6,16 +6,18 @@ function computeCentroid(points, clade, subclades) {
     for (var i = 0; i < points.length; i++) {
         var thisPoint = points[i]
         var interval = tmrca[clade]
-        var isAncient = false
-        if (tmrca.hasOwnProperty(subclades[i])) {
-            interval = tmrca[clade] - tmrca[subclades[i]]
+        var oldestAncient = 0
+	var scl = subclades[i]
+        if (tmrca.hasOwnProperty(scl)) {
+            interval = tmrca[clade] - tmrca[scl]
+		oldestAncient = oa[scl]
         } else {
-            if (ancientIds.indexOf(subclades[i]) != -1) {
-                interval = Math.max(0,tmrca[clade] - otfaSamples.filter(otfa => otfa['id'] == subclades[i])[0]['ybp'])
-                isAncient = true
+            if (ancientIds.indexOf(scl) != -1) {
+		    oldestAncient = otfaSamples.filter(otfa => otfa['id'] == scl)[0]['ybp']
+                interval = Math.max(0,tmrca[clade] - oldestAncient)
             }
         }
-        var weight = getNodeWeight(interval, tmrca[clade], isAncient)
+        var weight = getNodeWeight(interval, tmrca[clade], oldestAncient)
         sumlat += thisPoint[0] * weight
         sumlon += thisPoint[1] * weight
         weights.push(weight)
@@ -93,25 +95,53 @@ function getMedian(arr) {
     }
 }
 
+function getOldestAncient(subclade){
+    var oldest = 0
+    var children = getChildren(subclade)
+    children.forEach((c) => {
+        var child_oldest = getOldestAncient(c)
+        if (child_oldest > oldest) {
+            oldest = child_oldest
+        }
+    })
+    
+    if (hgToPositions.hasOwnProperty(subclade)) {
+        var samples = hgToPositions[subclade]
+
+        samples.forEach((s) => {
+            var sampleId = s[3]
+            if (ancientIds.indexOf(sampleId) != -1) {
+                var sample_ybp = otfaSamples.filter(otfa => otfa['id'] == sampleId)[0]['ybp']
+                if (sample_ybp > oldest) {
+                    oldest = sample_ybp
+                }
+            }
+        })
+    }
+    oa[subclade] = oldest
+	return oldest
+}
+
 var minNodeWeight = 1
 var maxNodeWeight = 2
 var nodeWeightRange = maxNodeWeight - minNodeWeight
-var isAncientMultiplier = 3
 
-function getNodeWeight(interval, parentAge, isAncient) {
-    var weight = minNodeWeight + nodeWeightRange * (parentAge - interval) / parentAge
-    if (isAncient) {
-        return weight * isAncientMultiplier
-    } else {
-        return weight
-    }
+var minAPWeight = 1
+var maxAPWeight = 2
+var apWeightRange = maxAPWeight - minAPWeight
+
+function getNodeWeight(interval, parentAge, oldestAncient) {
+    var intervalScaled = minNodeWeight + nodeWeightRange * (parentAge - interval) / parentAge
+    var apScaled =  minAPWeight + apWeightRange * oldestAncient / parentAge
+    var weight = intervalScaled * intervalScaled + apScaled * apScaled
+    return weight
 }
 
-function getWeightedMean(distances, intervals, parentAge, areAncient) {
+function getWeightedMean(distances, intervals, parentAge, oldestAncients) {
     var sum = 0;
     var weights = 0;
     for (var i = 0; i < distances.length; i++) {
-        var weight = getNodeWeight(intervals[i], parentAge, areAncient[i])
+        var weight = getNodeWeight(intervals[i], parentAge, oldestAncients[i])
         sum += distances[i] * weight
         weights += weight
     }
@@ -121,26 +151,27 @@ function getAvgDistance(point, points, clade, subclades) {
     var sum = 0;
     var distances = []
     var intervals = []
-    var areAncient = []
+    var oldestAncients = []
     for (var i = 0; i < points.length; i++) {
         var thisDist = getDistance(point, points[i])
         distances.push(thisDist)
         sum += thisDist
         var interval = tmrca[clade]
-        var isAncient = false
+        var oldestAncient = 0
         if (tmrca.hasOwnProperty(subclades[i])) {
             interval = tmrca[clade]-tmrca[subclades[i]]
+		oldestAncient = oa[subclades[i]]
         } else {            
             if (ancientIds.indexOf(subclades[i]) != -1) {
-                interval = Math.max(0,tmrca[clade] - otfaSamples.filter(otfa => otfa['id'] == subclades[i])[0]['ybp'])
-                isAncient = true
+		oldestAncient = otfaSamples.filter(otfa => otfa['id'] == subclades[i])[0]['ybp']
+                interval = Math.max(0,tmrca[clade] - oldestAncient)
             }
         }
         intervals.push(interval)
-        areAncient.push(isAncient)
+        oldestAncients.push(oldestAncient)
     }
     var distancesCopy = [...distances]
-    var weightedMean = getWeightedMean(distances,intervals,tmrca[clade], areAncient)
+    var weightedMean = getWeightedMean(distances,intervals,tmrca[clade], oldestAncients)
     return {"mean": sum/points.length, "weightedMean": weightedMean, "median": getMedian(distances),"max":Math.max(...distances), "intervals": intervals, "distances": distancesCopy, "subclades": subclades, "positions":points}
 }
 

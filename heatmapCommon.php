@@ -209,9 +209,11 @@ function submitNewCladeByInteraction(subclade) {
 
 }
 
+var oa = {}
 function submitNewClade() {
     var newValue = document.getElementById('newlookup').value
-    if (entries.indexOf(newValue) != -1) {
+	    if (entries.indexOf(newValue) != -1) {
+		    oa = {}
         var newValueSplit = newValue.split(" ")
         var hgAndClade = newValueSplit[newValueSplit.length-1].split("->")
         project = hgAndClade[0]
@@ -224,7 +226,8 @@ function submitNewClade() {
         } else {
             updateFrequencyMapForAncientInterval()
         }
-        removePreviousOptionalLayersAndClearNecessaryStates()
+		    removePreviousOptionalLayersAndClearNecessaryStates()
+			    getOldestAncient(project)
         applyCountryFiltersAndRecalcCentroids()
 
         if (countryCoordsAndCountsLoaded == false) {
