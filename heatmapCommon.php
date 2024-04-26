@@ -191,11 +191,13 @@ function addHeatMap() {
 var project = null
 var clade = null
 function submitNewCladeByInteraction(subclade) {
+	updatedTo90th = false
 	clade = subclade
 		document.getElementById('newlookup').value = project + "->" + clade
     loadKitsBelowSubclade(project,clade)
     if (layerStates['livingDead'] != 'ancient') {
-        loadTargetAndAddToMap()
+	    loadTargetAndAddToMap()
+		    updateSliderTo90thPercentile()
     } else {
         updateFrequencyMapForAncientInterval()
     }
@@ -214,6 +216,7 @@ function submitNewClade() {
     var newValue = document.getElementById('newlookup').value
 	    if (entries.indexOf(newValue) != -1) {
 		    oa = {}
+			    updatedTo90th = false
         var newValueSplit = newValue.split(" ")
         var hgAndClade = newValueSplit[newValueSplit.length-1].split("->")
         project = hgAndClade[0]
@@ -222,7 +225,8 @@ function submitNewClade() {
         loadKitsBelowSubclade(project,clade)
         layerStates['samples'] = false
         if (layerStates['livingDead'] != 'ancient') {
-            loadTargetAndAddToMap()
+		loadTargetAndAddToMap()
+			updateSliderTo90thPercentile()
         } else {
             updateFrequencyMapForAncientInterval()
         }

@@ -397,6 +397,9 @@ function loadSNPMap() {
 
 var actualMax = 0
 
+var updatedTo90th = false
+var ninetiethPercentile = 0
+
 function divide(numerator, denominator) {
     var quotient = []
     for (const [key, value] of Object.entries(numerator)) {
@@ -422,7 +425,21 @@ function divide(numerator, denominator) {
             filtered[key] = relFreq
         }
     }
+    if (!updatedTo90th) {
+	    var sortedVals = Object.values(quotient).filter((v) => v > 0)
+	    sortedVals.sort()
+	    if (sortedVals.length > 0) {
+	    	ninetiethPercentile = sortedVals[Math.floor(sortedVals.length*.95)]
+		updatedTo90th = true
+	    }
+    }
     return filtered
+}
+
+function updateSliderTo90thPercentile() {
+	var ninetiethPercentileFractionOfMax = ninetiethPercentile / actualMax
+	document.getElementById('hardmaxRange').value = 20-Math.floor(ninetiethPercentileFractionOfMax*20)
+	updateMapMaxChangedCommon()
 }
 
 function getRounded(hardMax) {
