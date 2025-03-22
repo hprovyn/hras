@@ -307,13 +307,22 @@ function getArticlesTableForClade(sortBy) {
 		}
 		if (thisfield == "SCOPE") {
 			var thistmrca = tmrca[thearticle["ADMIN_HG"]]
-			if (clade == thearticle["ADMIN_HG"]) {
+			var thishg = thearticle["ADMIN_HG"]
+			if (clade == thishg) {
 				thetableready[thislabel] = "Exact"
 			} else {
 				if (tmrca[clade] > thistmrca) {
 					thetableready[thislabel] = "More specific" 
 				} else {
-					thetableready[thislabel] = "More general"
+					if (tmrca[clade] < thistmrca) {
+						thetableready[thislabel] = "More general"
+					} else {
+						if (getDownstream(clade).indexOf(thishg) != -1) {	
+							thetableready[thislabel] = "More specific" 
+						} else {
+							thetableready[thislabel] = "More general"
+						}
+					}
 				}
 			}
 		}
